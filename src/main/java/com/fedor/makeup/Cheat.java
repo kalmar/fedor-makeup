@@ -27,9 +27,6 @@ import java.util.Map;
  */
 public class Cheat {
 
-    private static final String LOGIN_URL_PRE = "http://do.ngs.ru/lc/login/";
-    private static final String LOGIN_URL = "http://do.ngs.ru/lc/auth/";
-
     private HttpClient client = HttpClientBuilder.create().build();
     private HashMap<String, String> payloadHeaders = new HashMap<>();
 
@@ -53,7 +50,7 @@ public class Cheat {
 
     private void login() throws Exception {
 
-        HttpGet req1 = new HttpGet(LOGIN_URL_PRE);
+        HttpGet req1 = new HttpGet("http://do.ngs.ru/lc/login/");
 
         for (String key : payloadHeaders.keySet()) {
             req1.setHeader(key, payloadHeaders.get(key));
@@ -70,7 +67,7 @@ public class Cheat {
             log(h.getName() + " = " + h.getValue());
         }
 
-        HttpPost req2 = new HttpPost(LOGIN_URL);
+        HttpPost req2 = new HttpPost("http://do.ngs.ru/lc/auth/");
         payloadHeaders.put("Origin", "http://do.ngs.ru");
         for (String key : payloadHeaders.keySet()) {
             req2.setHeader(key, payloadHeaders.get(key));
@@ -177,7 +174,7 @@ public class Cheat {
             while (true) {
 
                 // sleep a while
-                Thread.sleep(30 * 1000);
+                Thread.sleep(60 * 1000);
 
                 String current = new SimpleDateFormat("HH:mm").format(new Date());
                 for (JsonElement t : times) {
