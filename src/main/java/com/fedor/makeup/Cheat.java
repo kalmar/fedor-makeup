@@ -100,6 +100,7 @@ public class Cheat {
                 new InputStreamReader(response.getEntity().getContent()));
 
         while (null != br.readLine()) {}
+        br.close();
     }
 
     private void action() throws Exception {
@@ -142,6 +143,7 @@ public class Cheat {
                 bad++;
             }
         }
+        br.close();
 
         msg("" + new Date() + " # good/bad = " + good + "/" + bad);
         if (0 < bad) {
@@ -165,6 +167,7 @@ public class Cheat {
             JsonReader reader = new JsonReader(new FileReader(args[0]));
             JsonParser parser = new JsonParser();
             JsonObject conf = parser.parse(reader).getAsJsonObject();
+            reader.close();
 
             String login = conf.get("login").getAsString();
             String password = conf.get("password").getAsString();
@@ -172,14 +175,22 @@ public class Cheat {
             JsonArray times = conf.getAsJsonArray("times");
 
             while (true) {
-                Thread.sleep(60 * 1000); // one minute
+
+                // sleep a while
+                Thread.sleep(30 * 1000);
+
                 String current = new SimpleDateFormat("HH:mm").format(new Date());
                 for (JsonElement t : times) {
                     String tm = t.getAsString();
 
                     if (current.equals(tm)) {
-                        new Cheat(login, password).execute();
-                        break;
+                        try {
+                            new Cheat(login, password).execute();
+                        } catch (Exception ex) {
+                            msg("EX: " + ex.getMessage());
+                        } finally {
+                            break;
+                        }
                     }
                 }
             }

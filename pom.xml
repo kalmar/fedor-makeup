@@ -6,7 +6,7 @@
 
     <groupId>org.kalmar.stuff</groupId>
     <artifactId>fedor-makeup</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <dependencies>
         <dependency>
